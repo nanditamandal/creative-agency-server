@@ -18,6 +18,18 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 client.connect(err => {
   const collection = client.db("creativeAgency").collection("order");
 
+
+  app.post('/addOrder', (req, res)=>{
+    const order = req.body;
+    console.log(order);
+    collection.insertOne(order)
+    .then( result=>{
+      console.log(result.insertedCount)
+      res.send(result.insertedCount>0);
+      
+       })
+})
+
   app.get("/", (req, res)=>{
       res.send("hello nandita")
   })
@@ -29,3 +41,4 @@ client.connect(err => {
 app.listen((process.env.PORT ||port) , () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
+
